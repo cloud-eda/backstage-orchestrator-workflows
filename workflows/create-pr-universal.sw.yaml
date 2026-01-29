@@ -28,8 +28,6 @@ functions:
   # GitHub functions
   - name: getBranchSHA
     operation: specs/github.yaml#getBranchSHA
-  - name: pushCommitBranch
-    operation: specs/github.yaml#updateBranchRef
   - name: createCommit
     operation: specs/github.yaml#createCommit
   - name: createTree
@@ -132,14 +130,6 @@ states:
             ref: '"heads/" + .baseBranch'
         actionDataFilter:
           toStateData: .latestSHA
-      - name: "createBranch"
-        functionRef:
-          refName: createBranch
-          arguments:  
-            owner: .owner
-            repo: .repo
-            ref: '"refs/heads/" + .targetBranch'
-            sha: .latestSHA.object.sha
       - name: "getCommitDetails"
         functionRef:
           refName: getCommitDetails
@@ -194,15 +184,14 @@ states:
             parents: [.latestSHA.object.sha]
         actionDataFilter:
           toStateData: .newCommit 
-      - name: "push"
+      - name: "createBranch"
         functionRef:
-          refName: pushCommitBranch
+          refName: createBranch
           arguments:  
             owner: .owner
             repo: .repo
-            ref: '"heads/" + .targetBranch'
-            sha: .newCommit.sha 
-            force: false
+            ref: '"refs/heads/" + .targetBranch'
+            sha: .newCommit.sha
     transition: GitHubCreatePR
   
   - name: GitHubCreatePR

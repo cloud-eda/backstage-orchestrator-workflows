@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: backstage-orchestrator-workflows
+  annotations:
+    github.com/project-slug: cloud-eda/backstage-orchestrator-workflows
+spec:
+  type: other
+  lifecycle: unknown
+  owner: user:default/test1
